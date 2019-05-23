@@ -14,31 +14,97 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-    ]
+    dependencies = [migrations.swappable_dependency(settings.AUTH_USER_MODEL)]
 
     operations = [
         migrations.CreateModel(
-            name='Application',
+            name="Application",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('client_id', models.CharField(db_index=True, default=oauth2_provider.generators.generate_client_id, max_length=100, unique=True)),
-                ('redirect_uris', models.TextField(blank=True, help_text='Allowed URIs list, space separated', validators=[oauth2_provider.validators.validate_uris])),
-                ('client_type', models.CharField(choices=[('confidential', 'Confidential'), ('public', 'Public')], max_length=32)),
-                ('authorization_grant_type', models.CharField(choices=[('authorization-code', 'Authorization code'), ('implicit', 'Implicit'), ('password', 'Resource owner password-based'), ('client-credentials', 'Client credentials')], max_length=32)),
-                ('client_secret', models.CharField(blank=True, db_index=True, default=oauth2_provider.generators.generate_client_secret, max_length=255)),
-                ('name', models.CharField(blank=True, max_length=255)),
-                ('skip_authorization', models.BooleanField(default=False)),
-                ('logo', models.ImageField(upload_to='')),
-                ('agree', models.BooleanField()),
-                ('website', models.TextField(validators=[django.core.validators.URLValidator()])),
-                ('privacy', models.TextField(validators=[django.core.validators.URLValidator()])),
-                ('description', models.TextField()),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='oauth2_application', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "client_id",
+                    models.CharField(
+                        db_index=True,
+                        default=oauth2_provider.generators.generate_client_id,
+                        max_length=100,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "redirect_uris",
+                    models.TextField(
+                        blank=True,
+                        help_text="Allowed URIs list, space separated",
+                        validators=[oauth2_provider.validators.validate_uris],
+                    ),
+                ),
+                (
+                    "client_type",
+                    models.CharField(
+                        choices=[
+                            ("confidential", "Confidential"),
+                            ("public", "Public"),
+                        ],
+                        max_length=32,
+                    ),
+                ),
+                (
+                    "authorization_grant_type",
+                    models.CharField(
+                        choices=[
+                            ("authorization-code", "Authorization code"),
+                            ("implicit", "Implicit"),
+                            ("password", "Resource owner password-based"),
+                            ("client-credentials", "Client credentials"),
+                        ],
+                        max_length=32,
+                    ),
+                ),
+                (
+                    "client_secret",
+                    models.CharField(
+                        blank=True,
+                        db_index=True,
+                        default=oauth2_provider.generators.generate_client_secret,
+                        max_length=255,
+                    ),
+                ),
+                ("name", models.CharField(blank=True, max_length=255)),
+                ("skip_authorization", models.BooleanField(default=False)),
+                ("logo", models.ImageField(upload_to="")),
+                ("agree", models.BooleanField()),
+                (
+                    "website",
+                    models.TextField(
+                        validators=[django.core.validators.URLValidator()]
+                    ),
+                ),
+                (
+                    "privacy",
+                    models.TextField(
+                        validators=[django.core.validators.URLValidator()]
+                    ),
+                ),
+                ("description", models.TextField()),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="oauth2_application",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
-        ),
+            options={"abstract": False},
+        )
     ]
