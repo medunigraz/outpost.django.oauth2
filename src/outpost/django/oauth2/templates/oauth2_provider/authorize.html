@@ -1,72 +1,70 @@
-{% extends "registration/base.html" %}
+{% extends "outpost/body.html" %}
 
 {% load i18n %}
 {% load static %}
 
-{% block content %}
-<div class="well">
-{% if not error %}
-<div class="page-header">
-  <h1>
-    <span>
-    {% trans "Authorize" %} {{ application.name }}
-    </span>
-    <div class="thumbnail pull-right">
-      <img src="{{ application.logo.url }}"/>
-    </div>
-  </h1>
-</div>
-<form id="authorizationForm" method="post">
-  {% csrf_token %}
-
-  {% for field in form %}
-  {% if field.is_hidden %}
-  {{ field }}
-  {% endif %}
-  {% endfor %}
-
-  <p>
-  {% trans "Application requires following permissions" %}:
-  </p>
-  <ul class="list-group">
-    {% for scope in scopes_descriptions %}
-    <li class="list-group-item">
-      <span class="glyphicon glyphicon-lock"></span>
-      {{ scope }}
-    </li>
-    {% endfor %}
-  </ul>
-
-  {{ form.errors }}
-  {{ form.non_field_errors }}
-
-  <div class="control-group">
-    <div class="controls">
-      <button type="submit" class="btn btn-default">
-        <span class="glyphicon glyphicon-ban-circle"></span>
-        {% trans 'Cancel' %}
-      </button>
-      <button type="submit" class="btn btn-primary" name="allow" value="Authorize">
-        <span class="glyphicon glyphicon-ok"></span>
-        {% trans 'Authorize' %}
-      </button>
-    </div>
-  </div>
-</form>
-{% else %}
-<div class="page-header">
-  <h1>
-    {% trans 'Error' %}: {{ error.error }}
-  </h1>
-</div>
-<div class="alert alert-danger" role="alert">
-  {{ error.description }}
-</div>
-</div>
-{% endif %}
-{% endblock %}
-
 {% block style %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'oauth2/authorize.scss' %}" type="text/x-scss" charset="utf-8">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 well">
+{% if not error %}
+      <div class="row">
+        <div class="col-md-4 visible-md-block visible-lg-block">
+          {{ application.name }}
+          <p>
+          <img id="logo" src="{{ application.logo.url }}" />
+          </p>
+        </div>
+        <div class="col-md-8">
+          <form method="post" action="." class="form-authorize">
+            {% csrf_token %}
+            {% for field in form %}
+            {% if field.is_hidden %}
+            {{ field }}
+            {% endif %}
+            {% endfor %}
+            <p>
+            {% trans "Application requires the following permissions" %}:
+            </p>
+            <ul class="list-group">
+              {% for scope in scopes_descriptions %}
+              <li class="list-group-item">
+                <span class="glyphicon glyphicon-lock"></span>
+                {{ scope }}
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="control-group">
+              <div class="controls">
+                <button type="submit" class="btn btn-primary" name="allow" value="Authorize">
+                  <i class="glyphicon glyphicon-ok"></i>
+                  {% trans 'Authorize' %}
+                </button>
+                <button type="submit" class="btn btn-default">
+                  <i class="glyphicon glyphicon-ban-circle"></i>
+                  {% trans 'Cancel' %}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+{% else %}
+      <h1>
+        {% trans 'Error' %}: {{ error.error }}
+      </h1>
+      <div class="alert alert-danger" role="alert">
+        {{ error.description }}
+      </div>
+{% endif %}
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>
 {% endblock %}
