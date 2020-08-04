@@ -6,8 +6,15 @@ from django.conf import settings
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
+import oauth2_provider
 import oauth2_provider.generators
 import oauth2_provider.validators
+
+
+if tuple(map(int, oauth2_provider.__version__.split("."))) >= (1, 3, 2):
+    RedirectURIValidator = oauth2_provider.validators.RedirectURIValidator
+else:
+    RedirectURIValidator = oauth2_provider.validators.validate_uris
 
 
 class Migration(migrations.Migration):
@@ -43,7 +50,7 @@ class Migration(migrations.Migration):
                     models.TextField(
                         blank=True,
                         help_text="Allowed URIs list, space separated",
-                        validators=[oauth2_provider.validators.validate_uris],
+                        validators=[RedirectURIValidator],
                     ),
                 ),
                 (
