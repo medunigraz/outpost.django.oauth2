@@ -14,8 +14,3 @@ class Application(AbstractApplication):
 
     class Meta(AbstractApplication.Meta):
         pass
-
-    def is_usable(self, request):
-        if not self.groups.exists():
-            return True
-        return self.groups.intersection(self.user.groups.all()).exists()
