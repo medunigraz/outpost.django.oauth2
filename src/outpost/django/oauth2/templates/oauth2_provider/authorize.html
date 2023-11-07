@@ -15,8 +15,12 @@
     <div class="col-md-8 well">
 {% if not error %}
       <div class="row">
+        <h1 class="col-md-12">
+          {% blocktrans with name=application.name %}Login to {{ application.name }}{% endblocktrans %}
+        </h1>
+      </div>
+      <div class="row">
         <div class="col-md-4 visible-md-block visible-lg-block">
-          {{ application.name }}
           <p>
           <img id="logo" src="{{ application.logo.url }}" />
           </p>
@@ -40,7 +44,7 @@
               </li>
               {% endfor %}
             </ul>
-            <div class="control-group">
+            <div class="control-group pull-right">
               <div class="controls">
                 <button type="submit" class="btn btn-primary" name="allow" value="Authorize">
                   <i class="glyphicon glyphicon-ok"></i>
