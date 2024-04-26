@@ -2,7 +2,10 @@ from django import forms
 from django.forms.models import modelform_factory
 from django.urls import reverse_lazy as reverse
 from oauth2_provider.models import get_application_model
-from oauth2_provider.views import application, base
+from oauth2_provider.views import (
+    application,
+    base,
+)
 
 
 class ApplicationModelFormMixin(object):
