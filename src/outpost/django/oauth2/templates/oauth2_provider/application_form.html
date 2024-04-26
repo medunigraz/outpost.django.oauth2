@@ -4,35 +4,38 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="page-header">
+<form method="post" action="{% if object %}{% url 'oauth2:edit' pk=object.pk %}{% else %}{% url 'oauth2:create' %}{% endif %}" enctype="multipart/form-data" class="pb-4">
+<div class="border-bottom mb-2">
+  <div class="btn-toolbar pull-right">
+    <div class="btn-group">
+      <a class="btn btn-secondary" href="{% url 'oauth2:list' %}">
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        {% trans "Go Back" %}
+      </a>
+      <button class="btn btn-primary" type="submit">
+        <i class="fa fa-save" aria-hidden="true"></i>
+        {% trans "Save" %}
+      </a>
+    </div>
+  </div>
   <h1>
     {% block app-form-title %}
-    {% trans "Edit application" %} {{ application.name }}
+    {% trans "Edit application" %} {{ object.name }}
     {% endblock app-form-title %}
   </h1>
 </div>
-<p>
-<form method="post" action="{% if application %}{% url 'oauth2:edit' pk=application.pk %}{% else %}{% url 'oauth2:create' %}{% endif %}" enctype="multipart/form-data">
-  {% csrf_token %}
-
-  {{ form|crispy }}
-
-  <div class="control-group {% if form.non_field_errors %}error{% endif %}">
-    {% for error in form.non_field_errors %}
-    <span class="help-inline">{{ error }}</span>
-    {% endfor %}
-  </div>
-
-  <div class="control-group">
-      <a class="btn btn-default" href="{% url 'oauth2:list' %}">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-        {% trans "Go Back" %}
-      </a>
-      <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-ok"></span>
-        Save
-      </button>
-  </div>
+{% csrf_token %}
+{{ form|crispy }}
+<div class="control-group {% if form.non_field_errors %}error{% endif %}">
+  {% for error in form.non_field_errors %}
+  <span class="help-inline">{{ error }}</span>
+  {% endfor %}
+</div>
+<div class="control-group">
+  <button type="submit" class="btn btn-primary btn-block">
+    <i class="fa fa-save" aria-hidden="true"></i>
+    {% trans "Save" %}
+  </button>
+</div>
 </form>
-</p>
 {% endblock %}

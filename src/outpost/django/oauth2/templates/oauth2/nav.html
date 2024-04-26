@@ -1,8 +1,9 @@
+{% load i18n %}
 {% if perms.oauth2 %}
-<li>
-  <a href="{% url 'oauth2:list' %}">
-    <span class="glyphicon glyphicon-lock"></span>
-    OAuth2
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'oauth2:list' %}" role="button">
+    <i class="fa fa-lock" aria-hidden="true"></i>
+    {% trans "OAuth2" %}
   </a>
 </li>
 {% endif %}
