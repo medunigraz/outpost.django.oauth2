@@ -10,6 +10,8 @@ from .views import (
     AuthorizationView,
 )
 
+app_name = "oauth2"
+
 urlpatterns = [
     url(r"^applications/$", ApplicationListView.as_view(), name="list"),
     url(r"^applications/(?P<pk>\d+)/$", ApplicationDetailView.as_view(), name="detail"),
