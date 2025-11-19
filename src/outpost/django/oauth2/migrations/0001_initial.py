@@ -3,18 +3,12 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-import django.core.validators
+from django.core.validators import URLValidator
 from django.db import migrations, models
 import django.db.models.deletion
 import oauth2_provider
 import oauth2_provider.generators
-import oauth2_provider.validators
-
-
-if tuple(map(int, oauth2_provider.__version__.split("."))) >= (1, 3, 2):
-    RedirectURIValidator = oauth2_provider.validators.RedirectURIValidator
-else:
-    RedirectURIValidator = oauth2_provider.validators.validate_uris
+from oauth2_provider.validators import AllowedURIValidator
 
 
 class Migration(migrations.Migration):
@@ -50,7 +44,7 @@ class Migration(migrations.Migration):
                     models.TextField(
                         blank=True,
                         help_text="Allowed URIs list, space separated",
-                        validators=[RedirectURIValidator],
+                        validators=[AllowedURIValidator],
                     ),
                 ),
                 (
@@ -90,15 +84,11 @@ class Migration(migrations.Migration):
                 ("agree", models.BooleanField()),
                 (
                     "website",
-                    models.TextField(
-                        validators=[django.core.validators.URLValidator()]
-                    ),
+                    models.TextField(validators=[URLValidator()]),
                 ),
                 (
                     "privacy",
-                    models.TextField(
-                        validators=[django.core.validators.URLValidator()]
-                    ),
+                    models.TextField(validators=[URLValidator()]),
                 ),
                 ("description", models.TextField()),
                 (
