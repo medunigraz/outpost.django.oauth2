@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path, path
 from oauth2_provider.views import TokenView
 
 from .views import (
@@ -13,17 +13,15 @@ from .views import (
 app_name = "oauth2"
 
 urlpatterns = [
-    url(r"^applications/$", ApplicationListView.as_view(), name="list"),
-    url(r"^applications/(?P<pk>\d+)/$", ApplicationDetailView.as_view(), name="detail"),
-    url(r"^applications/new/$", ApplicationCreateView.as_view(), name="create"),
-    url(
-        r"^applications/(?P<pk>\d+)/edit/$", ApplicationEditView.as_view(), name="edit"
-    ),
-    url(
-        r"^applications/(?P<pk>\d+)/delete/$",
+    path("applications/", ApplicationListView.as_view(), name="list"),
+    path("applications/<int:pk>/", ApplicationDetailView.as_view(), name="detail"),
+    path("applications/new/", ApplicationCreateView.as_view(), name="create"),
+    path("applications/<int:pk>/edit/", ApplicationEditView.as_view(), name="edit"),
+    path(
+        "applications/<int:pk>/delete/",
         ApplicationDeleteView.as_view(),
         name="delete",
     ),
-    url(r"^authorize/$", AuthorizationView.as_view(), name="authorize"),
-    url(r"^token/$", TokenView.as_view(), name="token"),
+    path("authorize/", AuthorizationView.as_view(), name="authorize"),
+    path("token/", TokenView.as_view(), name="token"),
 ]
