@@ -1,4 +1,7 @@
-from django.urls import re_path, path
+from django.urls import (
+    path,
+    re_path,
+)
 from oauth2_provider.views import TokenView
 
 from .views import (
